@@ -3,10 +3,16 @@ myApp.controller('PitchController', ['PitchService', function (PitchService) {
     var vm = this;
     vm.pitchService = PitchService;
     vm.pitchData = PitchService.pitchData;
+    vm.pitchers = {}
   
     vm.getPitchers = function () {
       console.log('getting list of pitcher IDs');
-      PitchService.getPitchers();
+      PitchService.getPitchers().then(function(response) {
+        vm.pitchers.list = PitchService.pitchers.list;
+        console.log('vm.list', vm.pitchers.list);
+      });
+      
+      
     }
   
     vm.getPitchDataById = function (id) {

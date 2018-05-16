@@ -3,4 +3,10 @@
     <div class="welcome">
         <h1>Home page</h1>
     </div>
+    <div class="pitchers" ng-init="pc.getPitchers()">
+        <h3>Pick your pitcher:</h3>
+        <select class="form-control" id="company" ng-model="PitchService.pitchers.list">
+            <option ng-repeat="pitcher in pc.pitchers.list" value="{{pitcher.pitcherid}}">{{pitcher.pitcherid}} </option>
+        </select>
+    </div>
 </div>
