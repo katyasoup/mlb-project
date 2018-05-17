@@ -5,8 +5,13 @@
     </div>
     <div class="pitchers" ng-init="pc.getPitchers()">
         <h3>Pick your pitcher:</h3>
-        <select class="form-control" id="company" ng-model="PitchService.pitchers.list">
+        <select class="form-control" ng-model="pc.pitcherid" ng-change="pc.getPitchDataById(pc.pitcherid); pc.avgZoneSpeed()">
             <option ng-repeat="pitcher in pc.pitchers.list" value="{{pitcher.pitcherid}}">{{pitcher.pitcherid}} </option>
         </select>
+    </div>
+    <div class="pitcherStats" ng-show="pc.displayStats">
+        <h2>Quick Stats</h2>
+        <h4>Pitches thrown: {{pc.pitchData.list.length}}</h4>
+        <h4>Average Zone Speed: {{pc.roundedSpeed}} mph</h4>
     </div>
 </div>
