@@ -3,27 +3,27 @@ const app = express();
 const bodyParser = require('body-parser');
 const env = require('dotenv').config();
 
-// const passport = require('./strategies/sql.localstrategy');
-// const sessionConfig = require('./modules/session-middleware');
+const passport = require('./strategies/sql.localstrategy');
+const sessionConfig = require('./modules/session-middleware');
 
 // Route includes
+const userRouter = require('./routes/user.router');
 const pitchRouter = require('./routes/pitches.router');
-// const urlRouter = require('./routes/url.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // // Passport Session Configuration
-// app.use(sessionConfig);
+app.use(sessionConfig);
 
 // // Start up passport sessions
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 /* Routes */
-app.use('/', pitchRouter);
-// app.use('/api/url', urlRouter);
+app.use('/api/user', userRouter);
+app.use('/api/pitches', pitchRouter);
 
 // Serve static files
 app.use(express.static('server/public'));

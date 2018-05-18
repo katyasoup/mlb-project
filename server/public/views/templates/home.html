@@ -1,17 +1,18 @@
-<div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
-    <div class="welcome">
-        <h1>Home page</h1>
-    </div>
-    <div class="pitchers" ng-init="pc.getPitchers()">
-        <h3>Pick your pitcher:</h3>
-        <select class="form-control" ng-model="pc.pitcherid" ng-change="pc.getPitchDataById(pc.pitcherid); pc.avgZoneSpeed()">
-            <option ng-repeat="pitcher in pc.pitchers.list" value="{{pitcher.pitcherid}}">{{pitcher.pitcherid}} </option>
-        </select>
-    </div>
-    <div class="pitcherStats" ng-show="pc.displayStats">
-        <h2>Quick Stats</h2>
-        <h4>Pitches thrown: {{pc.pitchData.list.length}}</h4>
-        <h4>Average Zone Speed: {{pc.roundedSpeed}} mph</h4>
-    </div>
+  <h1 class="lead">Login</h1>
+    <h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
+    <form ng-submit="vm.login()">
+      <div>
+          <label for="username">Username:</label>
+          <input type="text" ng-model="vm.user.username" />
+      </div>
+      <div>
+          <label for="password">Password:</label>
+          <input type="password" ng-model="vm.user.password" />
+      </div>
+      <div>
+          <input class="btn btn-default" type="submit" name="submit" value="Log In" />
+          <a href="#!register">Register</a>
+      </div>
+    </form>
 </div>
