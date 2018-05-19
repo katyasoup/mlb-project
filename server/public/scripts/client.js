@@ -9,15 +9,15 @@ myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
     })
     .when('/home', {
       templateUrl: '/views/templates/home.html',
-      controller: 'LoginController as vm',
+      controller: 'LoginController as lc',
     })
     .when('/register', {
       templateUrl: '/views/templates/register.html',
-      controller: 'LoginController as vm'
+      controller: 'LoginController as lc'
     })
     .when('/user', {
       templateUrl: '/views/templates/user.html',
-      controller: 'UserController as vm',
+      controller: 'UserController as uc',
       resolve: {
         getuser : function(UserService){
           return UserService.getuser();

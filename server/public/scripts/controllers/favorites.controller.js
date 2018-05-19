@@ -10,4 +10,12 @@ myApp.controller('FavoritesController', ['PitchService', function(PitchService) 
       console.log('user favorites:', self.favorites.list);
     })
   }
+
+  self.addToFaves = function (id) {
+    console.log('adding', id, 'to faves for current user');
+    PitchService.addToFaves().then(function(response) {
+      console.log('HOORAY');
+      
+    })
+  }
 }]);

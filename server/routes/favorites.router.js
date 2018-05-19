@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 
 router.post('/:id', (req, res) => {
     var newFave = {
-        owner: req.body.longUrl,
+        owner: req.user.id,
         pitcherid: req.params.id
       }
       console.log('new fave', newFave);

@@ -1,51 +1,51 @@
 myApp.controller('PitchController', ['PitchService', function (PitchService) {
   console.log('PitchController created');
-  const vm = this;
-  vm.pitchService = PitchService;
-  vm.pitchData = {}
-  vm.pitchers = {}
-  vm.displayStats = false;
+  const self = this;
+  self.pitchService = PitchService;
+  self.pitchData = {}
+  self.pitchers = {}
+  self.displayStats = false;
+  self.pitchSpeed = {};
 
-  vm.getPitchers = function () {
-    console.log('getting list of pitcher IDs');
+  self.getPitchers = function () {
     PitchService.getPitchers().then(function (response) {
-      vm.pitchers.list = PitchService.pitchers.list;
-      console.log('vm.list', vm.pitchers.list);
+      self.pitchers.list = PitchService.pitchers.list;
     });
   }
 
-  vm.getPitchDataById = function (id) {
-    console.log('getting pitch data from PitcherID', id);
+  self.getPitchDataById = function (id) {
     PitchService.getPitchDataById(id).then(function (response) {
-      vm.pitchData.list = PitchService.pitchData.list
-      console.log('LIST', vm.pitchData.list);
-      vm.avgZoneSpeed();
-      vm.displayStats = true;
+      self.pitchData.list = PitchService.pitchData.list
+      self.avgZoneSpeed();
+      self.displayStats = true;
     })
   }
 
-  vm.avgZoneSpeed = function() {
-    let pitchArray = vm.pitchData.list
-    console.log('pitch array', pitchArray);
-
+  self.avgZoneSpeed = function() {
+    let pitchArray = self.pitchData.list
     let sumSpeed = 0;
-    console.log('zone speed array', pitchArray);
 
     for (i = 0; i < pitchArray.length; i++) {
-      // console.log('speed is:', pitchArray[i].zonespeed);
       sumSpeed += parseFloat(pitchArray[i].zonespeed);
-      // console.log('SUM', sumSpeed);
+      playerID = parseInt(pitchArray[i].pitcherid)
     }
 
     let avgSpeed = (sumSpeed/pitchArray.length);
-    console.log('AVG', avgSpeed);
-
-    vm.roundedSpeed = Math.round(avgSpeed * 100)/100
-    console.log('rounded:', vm.roundedSpeed);
-    return vm.roundedSpeed;
+    self.pitchSpeed.roundedSpeed = Math.round(avgSpeed * 100)/100
+    self.pitchSpeed.playerID = playerID;
+    console.log('object:', self.pitchSpeed);
+    
+    return self.pitchSpeed;
   }
 
-  vm.pitchTypes = function() {
+  self.pitchTypes = function() {
     
+  }
+  self.addToFaves = function (id) {
+    console.log('adding', id, 'to faves for current user');
+    PitchService.addToFaves(id).then(function(response) {
+      console.log('HOORAY');
+      
+    })
   }
 }]);

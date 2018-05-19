@@ -8,10 +8,16 @@
         <select class="form-control" ng-model="pc.pitcherid" ng-change="pc.getPitchDataById(pc.pitcherid); pc.avgZoneSpeed()">
             <option ng-repeat="pitcher in pc.pitchers.list" value="{{pitcher.pitcherid}}">{{pitcher.pitcherid}} </option>
         </select>
+
+        <div class="pitcherStats" ng-show="pc.displayStats">
+            <h2>Quick Stats</h2>
+            <h4>Pitches thrown: {{pc.pitchData.list.length}}</h4>
+            <h4>Average Zone Speed: {{pc.pitchSpeed.roundedSpeed}} mph</h4>
+            <div class="faves">
+                <button ng-click="pc.addToFaves(pc.pitchSpeed.playerID)">Add to faves</button>
+            </div>
+        </div>
+
     </div>
-    <div class="pitcherStats" ng-show="pc.displayStats">
-        <h2>Quick Stats</h2>
-        <h4>Pitches thrown: {{pc.pitchData.list.length}}</h4>
-        <h4>Average Zone Speed: {{pc.roundedSpeed}} mph</h4>
-    </div>
+
 </div>

@@ -35,7 +35,7 @@ myApp.service('PitchService', ['$http', '$location', function ($http, $location)
 
   self.addToFaves = function (id) {
     console.log('getting pitch data from PitcherID', id);
-    return $http.post('/api/pitches/' + id).then(function (response) {
+    return $http.post('/api/favorites/' + id).then(function (response) {
       console.log('success');
       $location.path('/user');
     },
