@@ -44,4 +44,17 @@ myApp.service('PitchService', ['$http', '$location', function ($http, $location)
       self.message = "Something went wrong. Please try again."
     })
   }
+
+  self.removeFromFaves = function(id) {
+    console.log('removing pitcher', id, 'from faves');
+    return $http.delete('/api/favorites/delete/' + id).then(function(response) {
+      console.log('successfully deleted');
+      $location.path('/user');
+    },
+  function(response) {
+    console.log('error');
+    self.message = "Something went wrong. Please try again."
+  })
+    
+  }
 }]);

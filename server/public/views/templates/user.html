@@ -3,6 +3,8 @@
     <h2 id="welcome" class="lead">Welcome, {{uc.userObject.userName}}!</h2>
     <div class="favorites" ng-controller="FavoritesController as fc" ng-init="fc.getFaves()">
         <h4>Here's who's on your shortlist:</h4>
-        <p ng-repeat="fave in fc.favorites.list">{{fave.pitcherid}}</p>
+        <p ng-repeat="fave in fc.favorites.list">{{fave.pitcherid}} 
+            <button ng-click="fc.removeFromFaves(fave.pitcherid)">Remove</button>
+        </p>
     </div>
 </div>

@@ -11,7 +11,6 @@ const userRouter = require('./routes/user.router');
 const pitchRouter = require('./routes/pitches.router');
 const favesRouter = require('./routes/favorites.router');
 
-
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

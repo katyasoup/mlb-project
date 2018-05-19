@@ -18,4 +18,13 @@ myApp.controller('FavoritesController', ['PitchService', function(PitchService) 
       
     })
   }
+
+  self.removeFromFaves = function(id) {
+    console.log('removing', id, 'from this user\'s faves');
+    PitchService.removeFromFaves(id).then(function(response){
+      console.log('DONE DELETED');
+      
+    })
+    
+  }
 }]);
