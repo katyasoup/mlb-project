@@ -1,5 +1,8 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
-
-    <h1 id="welcome" class="lead">Welcome, {{vm.userObject.userName}}!</h1>
+    <h2 id="welcome" class="lead">Welcome, {{vm.userObject.userName}}!</h2>
+    <div class="favorites" ng-controller="FavoritesController as fc" ng-init="fc.getFaves()">
+        <h4>Here's who's on your shortlist:</h4>
+        <p ng-repeat="fave in fc.favorites.list">{{fave.pitcherid}}</p>
+    </div>
 </div>

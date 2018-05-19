@@ -1,6 +1,6 @@
 myApp.controller('PitchController', ['PitchService', function (PitchService) {
   console.log('PitchController created');
-  var vm = this;
+  const vm = this;
   vm.pitchService = PitchService;
   vm.pitchData = {}
   vm.pitchers = {}

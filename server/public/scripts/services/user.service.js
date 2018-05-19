@@ -1,6 +1,6 @@
 myApp.service('UserService', ['$http', '$location', function($http, $location){
   console.log('UserService Loaded');
-  var self = this;
+  const self = this;
   self.userObject = {};
 
   self.getuser = function(){
