@@ -9,7 +9,7 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
 
     self.login = function () {
       if (self.user.username === '' || self.user.password === '') {
-        self.message = "Enter your username and password!";
+        self.message = "Please enter your username and password";
       } else {
         console.log('sending to server...', self.user);
         $http.post('/api/user/login', self.user).then(
@@ -32,7 +32,7 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
 
     self.registerUser = function () {
       if (self.user.username === '' || self.user.password === '') {
-        self.message = "Choose a username and password!";
+        self.message = "Please choose a username and password!";
       } else {
         console.log('sending to server...', self.user);
         $http.post('/api/user/register', self.user).then(function (response) {
