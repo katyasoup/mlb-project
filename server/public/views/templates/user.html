@@ -1,10 +1,22 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
     <h2 id="welcome" class="lead">Welcome, {{uc.userObject.userName}}!</h2>
-    <div class="favorites" ng-controller="FavoritesController as fc" ng-init="fc.getFaves()">
-        <h4>Here's who's on your shortlist:</h4>
-        <p ng-repeat="fave in fc.favorites.list">{{fave.pitcherid}} 
-            <button ng-click="fc.removeFromFaves(fave.pitcherid)">Remove</button>
-        </p>
+    <div class="row favorites" ng-controller="PitchController as fc" ng-init="fc.getFaves()">
+        <div class="col-md-6 shortlist">
+            <h4>Here's who's on your shortlist:</h4>
+            <p ng-repeat="fave in fc.favorites.list">{{fave.pitcherid}}
+                <button ng-click="fc.getPitchDataById(fave.pitcherid)">Show Details</button>
+                <button ng-click="fc.removeFromFaves(fave.pitcherid)">Remove</button>
+            </p>
+        </div>
+        <div class="col-md-6 pitcherStats" ng-show="fc.displayStats">
+            <h2>Pitcher {{fc.pitcher.playerID}}:</h2>
+            <h4>Pitches thrown: {{fc.pitchData.list.length}}</h4>
+            <h4>Average Zone Speed: {{fc.pitcher.roundedSpeed}} mph</h4>
+            <div class="form-group">
+                <label for="notes">Notes:</label>
+                <textarea class="form-control" rows="5" id="notes">{{fc.pitcher.notes}}</textarea>
+            </div>
+        </div>
     </div>
 </div>

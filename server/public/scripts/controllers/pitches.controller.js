@@ -5,7 +5,8 @@ myApp.controller('PitchController', ['PitchService', function (PitchService) {
   self.pitchData = {}
   self.pitchers = {}
   self.displayStats = false;
-  self.pitchSpeed = {};
+  self.pitcher = {};
+  self.favorites = {};
 
   self.getPitchers = function () {
     PitchService.getPitchers().then(function (response) {
@@ -31,16 +32,24 @@ myApp.controller('PitchController', ['PitchService', function (PitchService) {
     }
 
     let avgSpeed = (sumSpeed/pitchArray.length);
-    self.pitchSpeed.roundedSpeed = Math.round(avgSpeed * 100)/100
-    self.pitchSpeed.playerID = playerID;
-    console.log('object:', self.pitchSpeed);
+    self.pitcher.roundedSpeed = Math.round(avgSpeed * 100)/100
+    self.pitcher.playerID = playerID;
+    console.log('object:', self.pitcher);
     
-    return self.pitchSpeed;
+    return self.pitcher;
   }
 
   self.pitchTypes = function() {
     
   }
+  self.getFaves = function() {
+    console.log('getting favorites data');
+    PitchService.getFaves().then(function (response) {
+      self.favorites.list = PitchService.favorites.list;
+      console.log('user favorites:', self.favorites.list);
+    })
+  }
+
   self.addToFaves = function (id) {
     console.log('adding', id, 'to faves for current user');
     PitchService.addToFaves(id).then(function(response) {
@@ -48,4 +57,14 @@ myApp.controller('PitchController', ['PitchService', function (PitchService) {
       
     })
   }
+
+  self.removeFromFaves = function(id) {
+    console.log('removing', id, 'from this user\'s faves');
+    PitchService.removeFromFaves(id).then(function(response){
+      console.log('DONE DELETED');
+      location.reload();
+    })
+    
+  }
+  
 }]);
