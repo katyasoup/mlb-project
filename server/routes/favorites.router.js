@@ -4,8 +4,6 @@ const router = express.Router();
 
 // GET all shortlist data
 router.get('/', (req, res) => {
-    console.log('HIT faves route');
-
     pool.query("SELECT * FROM favorites WHERE owner = $1", [req.user.id], (err, result) => {
         if (err) {
             console.log("Error retrieving data: ", err);
@@ -15,15 +13,42 @@ router.get('/', (req, res) => {
         }
     });
 });
+router.get('/:id', (req, res) => {
+    console.log('hit notes route');
 
+    let pitcher = req.params.id;
+    let owner = req.user.id;
+    pool.query("SELECT * FROM favorites WHERE pitcherid = $1 AND owner = $2;", [pitcher, owner], (err, result) => {
+        if (err) {
+            console.log("Error retrieving data:", err);
+            res.sendStatus(500);
+        } else {
+            res.send(result.rows);
+        }
+    });
+});
 router.post('/:id', (req, res) => {
     var newFave = {
         owner: req.user.id,
         pitcherid: req.params.id
     }
-    console.log('new fave', newFave);
-
     pool.query("INSERT INTO favorites (owner, pitcherid) VALUES ($1, $2)", [newFave.owner, newFave.pitcherid], (err, result) => {
+        if (err) {
+            console.log("Error retrieving data: ", err);
+            res.sendStatus(500);
+        } else {
+            res.sendStatus(201);
+        }
+    });
+})
+
+router.put('/:id', (req, res) => {
+    var newNote = {
+        owner: req.user.id,
+        pitcherid: req.params.id,
+        notes: req.body.notes
+    };
+    pool.query("UPDATE favorites SET notes = $1 WHERE pitcherid = $2 AND owner = $3", [newNote.notes, newNote.pitcherid, newNote.owner], (err, result) => {
         if (err) {
             console.log("Error retrieving data: ", err);
             res.sendStatus(500);
@@ -45,5 +70,7 @@ router.delete('/delete/:id', (req, res) => {
         }
     })
 });
+
+
 
 module.exports = router;

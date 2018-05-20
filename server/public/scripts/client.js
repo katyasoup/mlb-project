@@ -35,7 +35,7 @@ myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
     })
     .when('/info', {
       templateUrl: '/views/templates/info.html',
-      controller: 'FavoritesController as fc',
+      controller: 'PitchController as pc',
       resolve: {
         getuser : function(UserService){
           return UserService.getuser();

@@ -12,9 +12,9 @@
         <div class="pitcherStats" ng-show="pc.displayStats">
             <h2>Quick Stats</h2>
             <h4>Pitches thrown: {{pc.pitchData.list.length}}</h4>
-            <h4>Average Zone Speed: {{pc.pitchSpeed.roundedSpeed}} mph</h4>
+            <h4>Average Zone Speed: {{pc.pitcher.roundedSpeed}} mph</h4>
             <div class="faves">
-                <button ng-click="pc.addToFaves(pc.pitchSpeed.playerID)">Add to faves</button>
+                <button ng-click="pc.addToFaves(pc.pitcher.playerID)">Add to faves</button>
             </div>
         </div>
 
