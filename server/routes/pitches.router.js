@@ -24,4 +24,15 @@ router.get('/:id', (req, res) => {
         }
     });
 })
+
+router.get('/:id/types', (req, res) => {
+    pool.query("SELECT autopitchtype, COUNT(*) AS pitchcount FROM pitches WHERE pitcherid = $1 GROUP BY autopitchtype ORDER BY pitchcount;", [req.params.id], (err, result) => {
+        if (err) {
+            console.log("Error retrieving data: ", err);
+            res.sendStatus(500);
+        }else {
+            res.send(result.rows);
+        }
+    });
+})
 module.exports = router;

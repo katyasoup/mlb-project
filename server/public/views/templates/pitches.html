@@ -1,7 +1,8 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
     <div class="welcome">
-        <h1>Home page</h1>
+        <!-- <h1>Home page</h1> -->
+        <!-- <img class="baseball"src="../../images/baseball.png"> -->
     </div>
     <div class="pitchers" ng-init="pc.getPitchers()">
         <h3>Pick your pitcher:</h3>
@@ -13,8 +14,13 @@
             <h2>Quick Stats</h2>
             <h4>Pitches thrown: {{pc.pitchData.list.length}}</h4>
             <h4>Average Zone Speed: {{pc.pitcher.roundedSpeed}} mph</h4>
+            <h4>Pitch Types:</h4>
+            <ul ng-repeat="type in pc.pitcher.types | orderBy: '-pitchcount'">
+                <li>{{type.autopitchtype}}: {{(type.pitchcount*100) | number: 0}}%</li>
+            </ul>
+            <br>
             <div class="faves">
-                <button ng-click="pc.addToFaves(pc.pitcher.playerID)">Add to faves</button>
+                <button class="btn btn-primary"ng-click="pc.addToFaves(pc.pitcher.playerID)">Add to Shortlist</button>
             </div>
         </div>
 

@@ -20,7 +20,15 @@ myApp.service('PitchService', ['$http', '$location', function ($http, $location)
     console.log('getting pitch data from PitcherID', id);
     return $http.get('/api/pitches/' + id).then(function (response) {
       self.pitchData.list = response.data
-      console.log('array:', self.pitchData.list);
+      console.log('array:', self.pitchData);
+    })
+  }
+
+  self.pitchTypes = function(id) {
+    return $http.get('/api/pitches/' + id + '/types').then(response => {
+      self.pitchData.types = response.data;
+      console.log('type array:', self.pitchData.types);
+      
     })
   }
 

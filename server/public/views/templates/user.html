@@ -1,25 +1,38 @@
 <div ng-include="'views/partials/nav.html'"></div>
+<div ng-include="views/partials/header.html"></div>
 <div class="container">
-    <h2 id="welcome" class="lead">Welcome, {{uc.userObject.userName}}!</h2>
-    <div class="row" ng-controller="PitchController as fc" ng-init="fc.getFaves()">
+    <h1 id="welcome">Welcome, {{uc.userObject.userName}}!</h1>
+    <div class="row" ng-controller="PitchController as pc" ng-init="pc.getFaves()">
         <div class="col-md-6">
             <h4>Here's who's on your shortlist:</h4>
-            <p ng-repeat="fave in fc.favorites.list">{{fave.pitcherid}}
-                <button ng-click="fc.getPitchDataById(fave.pitcherid); fc.getPitcherNotes(fave.pitcherid)">Show Details</button>
-                <button ng-click="fc.removeFromFaves(fave.pitcherid)">Remove</button>
-            </p>
-        </div>
-        <div class="col-md-6" ng-show="fc.displayStats">
-            <h2>Pitcher {{fc.pitcher.playerID}}:</h2>
-            <h4>Pitches thrown: {{fc.pitchData.list.length}}</h4>
-            <h4>Average Zone Speed: {{fc.pitcher.roundedSpeed}} mph</h4>
-            <div class="form-group">
-                <label for="notes">Notes:</label>
-                <h4 ng-hide="fc.editNotes">{{fc.pitcher.notes[0].notes}}</h4>
-                <button class="btn btn-default" ng-click="fc.toggleEdit()" ng-hide="fc.editNotes">Edit notes</button>
-                <textarea class="form-control" rows="5" id="notes" ng-model="fc.task.notes" ng-show="fc.editNotes"></textarea>
-                <button type="submit" class="btn btn-default" ng-show="fc.editNotes" ng-click="fc.updateNotes(fc.pitcher.playerID); fc.toggleEdit();">Update Notes</button>
+            <div class="shortlisted" ng-repeat="fave in pc.favorites.list | orderBy: 'id'">
+                <p>
+                    <strong>{{fave.pitcherid}}</strong>
+                </p>
+                <button class="btn btn-primary" ng-click="pc.getPitchDataById(fave.pitcherid); pc.getPitcherNotes(fave.pitcherid)">Show Details</button>
+                <button class="btn btn-danger" ng-click="pc.removeFromFaves(fave.pitcherid)">Remove</button>
             </div>
+        </div>
+        <div class="col-md-6" ng-show="pc.displayStats">
+            <h2>Pitcher {{pc.pitcher.playerID}}:</h2>
+            <h4>Pitches thrown: {{pc.pitchData.list.length}}</h4>
+            <h4>Average Zone Speed: {{pc.pitcher.roundedSpeed}} mph</h4>
+            <h4>Pitch Types:</h4>
+            <ul ng-repeat="type in pc.pitcher.types | orderBy: '-pitchcount'">
+                <li>{{type.autopitchtype}}: {{(type.pitchcount*100) | number: 0}}%</li>
+            </ul>
+        </div>
+        <div class="col-md-12" ng-show="pc.displayStats">
+            <label for="notes">Notes:</label>
+            <p ng-hide="pc.editNotes">
+                <em>{{pc.pitcher.notes[0].notes}}</em>
+            </p>
+            <button class="btn btn-default" ng-click="pc.toggleEdit()" ng-hide="pc.editNotes">Edit notes</button>
+            <textarea class="form-control" rows="5" id="notes" ng-model="pc.notes.note" ng-show="pc.editNotes"></textarea>
+            <br />
+            <button type="submit" class="btn btn-primary" ng-show="pc.editNotes" ng-click="pc.updateNotes(pc.pitcher.playerID); pc.toggleEdit();">Update Notes</button>
+            <button class="btn btn-default" ng-show="pc.editNotes" ng-click="pc.toggleEdit();">Cancel</button>
+
         </div>
     </div>
 </div>

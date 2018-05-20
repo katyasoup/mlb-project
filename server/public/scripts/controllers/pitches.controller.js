@@ -1,12 +1,16 @@
-myApp.controller('PitchController', ['PitchService','$http', '$location', function (PitchService, $http, $location) {
+myApp.controller('PitchController', ['PitchService', '$http', '$location', function (PitchService, $http, $location) {
   console.log('PitchController created');
   const self = this;
   self.pitchService = PitchService;
+
+  // objects to hold data from server
   self.pitchData = {}
   self.pitchers = {}
-  self.displayStats = false;
   self.pitcher = {};
   self.favorites = {};
+
+  // show/hide toggles
+  self.displayStats = false;
   self.editNotes = false;
 
   self.getPitchers = function () {
@@ -19,6 +23,7 @@ myApp.controller('PitchController', ['PitchService','$http', '$location', functi
     PitchService.getPitchDataById(id).then(response => {
       self.pitchData.list = PitchService.pitchData.list
       self.avgZoneSpeed();
+      self.pitchTypes(id);
       self.displayStats = true;
     })
   }
@@ -30,7 +35,7 @@ myApp.controller('PitchController', ['PitchService','$http', '$location', functi
   }
 
   self.avgZoneSpeed = function () {
-    let pitchArray = self.pitchData.list
+    let pitchArray = self.pitchData.list;
     let sumSpeed = 0;
 
     for (i = 0; i < pitchArray.length; i++) {
@@ -45,8 +50,26 @@ myApp.controller('PitchController', ['PitchService','$http', '$location', functi
     return self.pitcher;
   }
 
-  self.pitchTypes = function () {
+  self.pitchTypes = function (id) {
+    PitchService.pitchTypes(id).then(response => {
+      self.pitcher.types = PitchService.pitchData.types;
+      
+      typesArray = self.pitcher.types;
+      let count = 0;
+      let sum = 0;
+      let percent = 0;
 
+      for (i = 0; i < typesArray.length; i++) {
+        count = parseInt(typesArray[i].pitchcount)
+        typesArray[i].pitchcount = count
+        sum += count  
+      }
+
+      // convert to percentage value
+      for (j=0; j< typesArray.length; j++) {
+        typesArray[j].pitchcount /= sum 
+      }
+    })
   }
 
   self.getFaves = function () {
@@ -58,25 +81,26 @@ myApp.controller('PitchController', ['PitchService','$http', '$location', functi
   }
 
   self.updateNotes = function (id) {
-    self.task = {
-      pitcherid: id,
-      notes: self.task.notes
-    };
-    return $http({
-      method: 'PUT',
-      url: '/api/favorites/' + id,
-      data: self.task
-    }).then(function (response) {
-      console.log('success');
-      self.getPitchDataById(id); 
-      self.getPitcherNotes(id)
-    })
-  },
-  function (response) {
-    console.log('error');
-    self.message = "Something went wrong. Please try again."
-  }
-  
+      self.task = {
+        pitcherid: id,
+        notes: self.notes.note
+      };
+      return $http({
+        method: 'PUT',
+        url: '/api/favorites/' + id,
+        data: self.task
+      }).then(response => {
+        console.log('success');
+        self.getPitchDataById(id);
+        self.getPitcherNotes(id)
+      })
+    }
+    // function (response) {
+    //   console.log('error');
+    //   self.message = "Something went wrong. Please try again."
+    // }
+    
+
 
   self.addToFaves = function (id) {
     console.log('adding', id, 'to faves for current user');
@@ -95,7 +119,7 @@ myApp.controller('PitchController', ['PitchService','$http', '$location', functi
 
   }
 
-  self.toggleEdit = function() {
+  self.toggleEdit = function () {
     self.editNotes = !self.editNotes
   }
 }]);
