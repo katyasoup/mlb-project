@@ -28,12 +28,6 @@ myApp.controller('PitchController', ['PitchService', '$http', '$location', funct
     })
   }
 
-  self.getPitcherNotes = function (id) {
-    PitchService.getPitcherNotes(id).then(response => {
-      self.pitcher.notes = PitchService.pitcher.notes;
-    })
-  }
-
   self.avgZoneSpeed = function () {
     let pitchArray = self.pitchData.list;
     let sumSpeed = 0;
@@ -46,80 +40,70 @@ myApp.controller('PitchController', ['PitchService', '$http', '$location', funct
     let avgSpeed = (sumSpeed / pitchArray.length);
     self.pitcher.roundedSpeed = Math.round(avgSpeed * 100) / 100
     self.pitcher.playerID = playerID;
-    console.log('object:', self.pitcher);
     return self.pitcher;
   }
 
   self.pitchTypes = function (id) {
     PitchService.pitchTypes(id).then(response => {
       self.pitcher.types = PitchService.pitchData.types;
-      
-      typesArray = self.pitcher.types;
+
+      let typesArray = self.pitcher.types;
       let count = 0;
       let sum = 0;
-      let percent = 0;
 
+      // set pitchcount value to integer and sum all pitchcounts
       for (i = 0; i < typesArray.length; i++) {
         count = parseInt(typesArray[i].pitchcount)
         typesArray[i].pitchcount = count
-        sum += count  
+        sum += count
       }
 
       // convert to percentage value
-      for (j=0; j< typesArray.length; j++) {
-        typesArray[j].pitchcount /= sum 
+      for (j = 0; j < typesArray.length; j++) {
+        typesArray[j].pitchcount /= sum
       }
     })
   }
 
   self.getFaves = function () {
-    console.log('getting favorites data');
     PitchService.getFaves().then(response => {
       self.favorites.list = PitchService.favorites.list;
-      console.log('user favorites CAAAAAAAKE:', self.favorites.list);
     })
   }
 
-  self.updateNotes = function (id) {
-      self.task = {
-        pitcherid: id,
-        notes: self.notes.note
-      };
-      return $http({
-        method: 'PUT',
-        url: '/api/favorites/' + id,
-        data: self.task
-      }).then(response => {
-        console.log('success');
-        self.getPitchDataById(id);
-        self.getPitcherNotes(id)
-      })
-    }
-    // function (response) {
-    //   console.log('error');
-    //   self.message = "Something went wrong. Please try again."
-    // }
-    
-
-
   self.addToFaves = function (id) {
-    console.log('adding', id, 'to faves for current user');
-    PitchService.addToFaves(id).then(response => {
-      console.log('HOORAY');
-
-    })
+    PitchService.addToFaves(id)
   }
 
   self.removeFromFaves = function (id) {
-    console.log('removing', id, 'from this user\'s faves');
     PitchService.removeFromFaves(id).then(response => {
-      console.log('DONE DELETED');
       location.reload();
     })
-
+  }
+  
+  self.getPitcherNotes = function (id) {
+    PitchService.getPitcherNotes(id).then(response => {
+      self.pitcher.notes = PitchService.pitcher.notes;
+    })
   }
 
   self.toggleEdit = function () {
     self.editNotes = !self.editNotes
   }
+
+  self.updateNotes = function (id) {
+    self.noteObj = {
+      pitcherid: id,
+      notes: self.notes.note
+    };
+    return $http({
+      method: 'PUT',
+      url: '/api/favorites/' + id,
+      data: self.noteObj
+    }).then(response => {
+      self.getPitchDataById(id);
+      self.getPitcherNotes(id)
+    })
+  }
+
 }]);

@@ -1,5 +1,6 @@
 myApp.controller('LoginController', ['$http', '$location', 'UserService', function($http, $location, UserService) {
     console.log('LoginController created');
+   
     const self = this;
     self.user = {
       username: '',
@@ -11,15 +12,11 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
       if (self.user.username === '' || self.user.password === '') {
         self.message = "Please enter your username and password";
       } else {
-        console.log('sending to server...', self.user);
         $http.post('/api/user/login', self.user).then(
           function (response) {
             if (response.status == 200) {
-              console.log('success: ', response.data);
-              // location works with SPA (ng-route)
               $location.path('/user');
             } else {
-              console.log('failure error: ', response);
               self.message = "Incorrect credentials. Please try again.";
             }
           },

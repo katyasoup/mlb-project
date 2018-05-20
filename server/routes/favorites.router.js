@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool.js');
 const router = express.Router();
 
-// GET all shortlist data
+// get all shortlist data
 router.get('/', (req, res) => {
     pool.query("SELECT * FROM favorites WHERE owner = $1", [req.user.id], (err, result) => {
         if (err) {
@@ -13,9 +13,9 @@ router.get('/', (req, res) => {
         }
     });
 });
-router.get('/:id', (req, res) => {
-    console.log('hit notes route');
 
+// get shortlisted pitcher by ID
+router.get('/:id', (req, res) => {
     let pitcher = req.params.id;
     let owner = req.user.id;
     pool.query("SELECT * FROM favorites WHERE pitcherid = $1 AND owner = $2;", [pitcher, owner], (err, result) => {
@@ -27,6 +27,8 @@ router.get('/:id', (req, res) => {
         }
     });
 });
+
+// add pitcher to shortlist
 router.post('/:id', (req, res) => {
     var newFave = {
         owner: req.user.id,
@@ -42,6 +44,7 @@ router.post('/:id', (req, res) => {
     });
 })
 
+// update notes for one specific pitcher
 router.put('/:id', (req, res) => {
     var newNote = {
         owner: req.user.id,
@@ -58,6 +61,7 @@ router.put('/:id', (req, res) => {
     });
 })
 
+// remove pitcher from shortlist
 router.delete('/delete/:id', (req, res) => {
     let pitcher = req.params.id;
     let owner = req.user.id;
@@ -70,7 +74,5 @@ router.delete('/delete/:id', (req, res) => {
         }
     })
 });
-
-
 
 module.exports = router;
