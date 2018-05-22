@@ -16,7 +16,7 @@ Once your prerequisities are installed, run ```npm install``` to download and in
 
 Run the script from ```database.sql``` to create your tables.
 
-NOTE! Database tables should be populated with your own preexisting data; there is no option to add data via the app.
+NOTE! Database tables should be populated with your own preexisting pitch data; there is no option to add this data via the app.
 
 
 
